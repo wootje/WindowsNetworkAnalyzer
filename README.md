@@ -351,3 +351,6 @@ See [VALIDATION.md](VALIDATION.md) for the test scope and environment limits. Th
 ## Third-party data
 
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for bundled reference data and its notices. Those notices concern the included datasets and do not assign a license to the rest of the project. Choose an appropriate project license when publishing your repository if you want to grant reuse rights.
+
+
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/wootje/WindowsNetworkAnalyzer/total">
