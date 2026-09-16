@@ -1,4 +1,4 @@
-# Windows Network Analyzer
+# Windows Network Analyzer that generates a webpage with filter options
 
 **Version 3.0.1** — Record Windows network activity, link observations to processes and Windows services, and explore an English explanation for each connection in a searchable offline HTML report.
 
