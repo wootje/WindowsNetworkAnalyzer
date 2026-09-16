@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="color-scheme" content="dark light">
+<title>Windows Network Analyzer</title>
+<style>
+:root{color-scheme:dark;--bg:#101720;--surface:#18222e;--surface-2:#1e2b39;--surface-3:#253549;--text:#e8eef5;--muted:#a6b6c8;--border:#344558;--accent:#70d5c4;--accent-soft:#1d403e;--blue:#91bdf5;--orange:#efbd77;--shadow:0 24px 80px #0007}
+html.light{color-scheme:light;--bg:#f3f6f9;--surface:#fff;--surface-2:#f5f8fa;--surface-3:#eaf0f5;--text:#192d40;--muted:#52677d;--border:#d3dee7;--accent:#006f63;--accent-soft:#e3f4ef;--blue:#155a9e;--orange:#8c5914;--shadow:0 24px 80px #15263725}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button,a,input,select,summary{touch-action:manipulation}button{cursor:pointer}button,input,select{border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text)}button{padding:8px 13px}button:hover{background:var(--surface-3)}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}a{color:var(--blue);text-underline-offset:3px}h1,h2,h3,p{margin:0}h1{font-size:clamp(25px,3vw,37px);font-weight:690;letter-spacing:-.035em;line-height:1.15}h2{font-size:19px}h3{font-size:15px}code,.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.91em;overflow-wrap:anywhere}.wrap{max-width:1700px;margin:auto;padding:38px 34px 48px}.eyebrow{font-size:11px;letter-spacing:.13em;font-weight:700;text-transform:uppercase;color:var(--accent);margin-bottom:11px}.top{display:flex;align-items:flex-start;gap:25px;justify-content:space-between}.top-tools{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.subtitle{margin-top:12px;color:var(--muted);max-width:790px}.local-tag{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;white-space:nowrap;padding:8px 0}.local-tag:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}.metadata{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:20px;color:var(--muted);font-size:12px}.metadata strong{color:var(--text);font-weight:550}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:26px 0 20px}.stat{padding:19px 21px;background:var(--surface);border:1px solid var(--border);border-radius:12px}.stat-value{font-size:29px;font-weight:680;letter-spacing:-.04em;line-height:1.1;margin:7px 0}.stat-label{color:var(--muted);font-size:12px}.stat-note{font-size:11px;color:var(--muted)}.accent{color:var(--accent)}.information{padding:13px 17px;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:9px;background:var(--surface);margin:0 0 19px;font-size:12px;color:var(--muted)}.information strong{color:var(--text);font-weight:600}.information details{margin-top:7px}.information summary{cursor:pointer;width:fit-content;color:var(--blue)}.information details p{margin-top:9px;max-width:1100px}.warning{border-left-color:var(--orange)}.warning ul{margin:7px 0 0;padding-left:21px}.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}.filters{padding:20px}.search-row{display:flex;align-items:center;gap:12px}.search-wrap{position:relative;flex:1}.search-wrap span{position:absolute;left:14px;top:10px;color:var(--muted);font-size:19px;line-height:1.3}.search-wrap input{width:100%;padding:11px 14px 11px 41px;background:var(--bg)}.filter-grid{display:grid;grid-template-columns:1.15fr 1.8fr 1fr 1.2fr 1fr 1.1fr;gap:11px;margin-top:15px}.field{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:600;color:var(--muted)}.field select{width:100%;padding:8px;font-size:12px;font-weight:400;min-width:0}.filter-bottom{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap;margin-top:16px}.chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.chip{border-radius:20px;font-size:11px;padding:5px 11px;color:var(--muted)}.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}.checkbox{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:12px;font-weight:400}.checkbox input{width:15px;height:15px;accent-color:var(--accent)}.toolbar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:12px 20px;border-block:1px solid var(--border);background:var(--surface-2);font-size:12px;color:var(--muted)}.toolbar strong{color:var(--text)}.table-wrap{overflow:auto;max-height:620px}table{width:100%;border-collapse:collapse;text-align:left;white-space:nowrap}thead{position:sticky;top:0;z-index:1;background:var(--surface-2);box-shadow:0 1px var(--border)}th{padding:0;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:650}th button{border:0;border-radius:0;background:transparent;width:100%;padding:12px 14px;text-align:left;font-size:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;white-space:nowrap}th button:hover{color:var(--text)}.sort{margin-left:6px;color:var(--accent)}td{padding:12px 14px;border-top:1px solid var(--border);vertical-align:top;font-size:12px}tbody tr:hover{background:var(--surface-2)}.app-button{display:block;padding:0;border:0;border-radius:3px;background:transparent;text-align:left;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);font-weight:600}.app-button:hover{background:transparent;color:var(--accent)}.secondary{color:var(--muted);font-size:11px;margin-top:3px;max-width:240px;overflow:hidden;text-overflow:ellipsis}.endpoint{font-size:11px;max-width:275px;overflow:hidden;text-overflow:ellipsis}.name-cell{max-width:230px;overflow:hidden;text-overflow:ellipsis}.badge{display:inline-block;padding:2px 7px;border-radius:4px;background:var(--surface-3);font-size:10px;color:var(--muted)}.badge-tcp{color:var(--blue)}.badge-udp{color:var(--accent)}.badge-block{color:var(--orange)}.empty{text-align:center;padding:54px 20px;white-space:normal;color:var(--muted)}.empty strong{display:block;color:var(--text);font-size:16px;margin-bottom:7px}.pagination{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:15px 20px;color:var(--muted);font-size:12px}.page-controls{display:flex;gap:10px;align-items:center}.page-controls button{font-size:12px;padding:6px 10px}.per-page{display:flex;align-items:center;gap:8px}.per-page select{padding:5px 8px;font-size:12px}.footer{margin-top:19px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.footer p{max-width:970px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}dialog{width:min(880px,calc(100% - 30px));max-height:90vh;border:1px solid var(--border);border-radius:14px;padding:0;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}dialog::backdrop{background:#0009;backdrop-filter:blur(3px)}.dialog-top{display:flex;align-items:flex-start;gap:20px;justify-content:space-between;padding:24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:2}.dialog-top h2{overflow-wrap:anywhere}.dialog-top p{font-size:12px;color:var(--muted);margin-top:5px}.close{padding:4px 12px;font-size:24px;line-height:1.3}.detail-body{padding:22px 24px 28px}.detail-section+.detail-section{margin-top:26px}.detail-section h3{margin-bottom:12px;color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.07em}dl{display:grid;grid-template-columns:180px minmax(0,1fr);margin:0;gap:9px 18px;font-size:12px}dt{color:var(--muted)}dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}.detail-note{font-size:12px;color:var(--muted);margin:12px 0}.registration{padding:15px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);margin-top:10px}.registration h4{font-size:13px;margin:0 0 12px;overflow-wrap:anywhere}.json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:330px;overflow:auto;font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:13px}.detail-section summary{color:var(--blue);cursor:pointer}.error-box{display:none;margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--orange);border-radius:9px;white-space:pre-wrap}.reset{font-size:12px;white-space:nowrap}.collection-count{color:var(--muted);font-size:11px}.list-link{display:inline-block;margin-right:15px;margin-top:10px}
+@media(prefers-reduced-motion:no-preference){button,a{transition:background .12s,color .12s}dialog[open]{animation:enter .12s ease-out}@keyframes enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}}
+@media(max-width:1050px){.filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding:25px 20px}.stat{padding:16px}.top{gap:15px}.top-tools{max-width:200px}}
+@media(max-width:650px){.wrap{padding:23px 12px}.top{flex-direction:column}.top-tools{max-width:none;justify-content:flex-start;align-items:center}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat-value{font-size:25px}.filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{padding:14px}.toolbar{padding:11px 14px}.toolbar>span:last-child{display:none}.search-row{flex-wrap:wrap}.search-wrap{flex-basis:100%}.reset{margin-left:auto}.information{font-size:11px}.dialog-top{padding:18px}.detail-body{padding:19px 18px}dl{grid-template-columns:1fr;gap:3px}dd{margin-bottom:9px}.pagination{padding:13px}.collection-count{display:none}}
+@media print{:root,html.light{--bg:white;--surface:white;--surface-2:#f4f4f4;--surface-3:#eee;--text:#111;--muted:#444;--border:#ccc;--accent:#155c51;--blue:#164a78}body{font-size:10px}.wrap{padding:0;max-width:none}.top-tools,.filters,.pagination,dialog,.information details,.footer{display:none!important}.table-wrap{max-height:none;overflow:visible}table{white-space:normal}thead{position:static}.stats{gap:7px}.stat{padding:9px}.stat-value{font-size:21px}.panel{border:0}.app-button,.secondary,.name-cell,.endpoint{max-width:none;white-space:normal}td,th button{padding:7px 5px;font-size:9px}.toolbar{padding:8px}.information{font-size:10px}}
+.process-primary{max-width:290px}.explanation-cell{min-width:280px;max-width:360px;white-space:normal}.explanation-button{display:block;border:0;padding:0;background:transparent;text-align:left;font-size:12px;color:var(--text);white-space:normal;line-height:1.55}.explanation-button:hover{background:transparent;color:var(--accent)}.explanation-lead{font-size:16px;margin-bottom:15px}.explanation-lists{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:15px}.explanation-lists h4{font-size:12px;margin:0 0 7px}.explanation-lists ul{margin:0;padding-left:18px;color:var(--muted);font-size:12px}.next-check{padding:12px 14px;background:var(--surface-2);border-left:3px solid var(--blue);margin-top:17px;font-size:12px}.next-check strong{display:block;margin-bottom:5px}.service-card{border:1px solid var(--border);background:var(--surface-2);padding:14px;border-radius:8px;margin-top:12px}.service-card h4{font-size:13px;margin:0 0 7px}.service-card p{font-size:12px;color:var(--muted);margin-bottom:12px}.context{margin-top:12px}[hidden]{display:none!important}@media(max-width:650px){.explanation-lists{grid-template-columns:1fr}.explanation-cell{min-width:230px}}
+.advanced-filters{margin-top:18px}.advanced-intro,.advanced-help{font-size:11px;color:var(--muted);line-height:1.65}.advanced-intro{margin-bottom:9px}.advanced-group{border-top:1px solid var(--border);padding:11px 0}.advanced-group>summary{cursor:pointer;color:var(--blue);font-size:12px;font-weight:600}.advanced-help{margin:10px 0}.advanced-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.advanced-grid input{width:100%;min-width:0;padding:8px;font-size:12px;font-weight:400}.filter-errors{margin-top:12px;padding:12px 15px;border:1px solid var(--orange);border-radius:8px;color:var(--orange);font-size:12px}.filter-errors p+p{margin-top:5px}@media(max-width:1050px){.advanced-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.advanced-grid{grid-template-columns:1fr}}
+</style>
+<style id="wna-responsive-layout">
+/* Windows Network Analyzer 3.0.1 - responsive connection report.
+   Keep all nine columns and all original record data. Do not hide horizontal
+   overflow: size the table to the viewport and wrap long values instead.
+   This same stylesheet can be injected into an existing 3.0 report. */
+
+.wrap, .panel, .filters, .field, .search-wrap,
+.top > div, .dialog-top > div, .metadata > span,
+.toolbar > span, .pagination > *, .footer > * {
+  min-width: 0;
+}
+
+.filter-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.8fr)
+    minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.1fr);
+}
+.field input, .field select { max-width: 100%; }
+.metadata, .toolbar, .footer, .dialog-top { overflow-wrap: anywhere; }
+.toolbar { flex-wrap: wrap; }
+.explanation-lists { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Wide screens: allocate column widths explicitly, rather than allowing
+   unbroken process names, addresses and timestamps to expand the table. */
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  max-height: min(72vh, 760px);
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.table-wrap table {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  white-space: normal;
+}
+.table-wrap th[data-key="app"] { width: 15%; }
+.table-wrap th[data-key="protocol"] { width: 5.5%; }
+.table-wrap th[data-key="remote"] { width: 11%; }
+.table-wrap th[data-key="explanation"] { width: 20%; }
+.table-wrap th[data-key="dns"] { width: 12%; }
+.table-wrap th[data-key="owner"] { width: 10%; }
+.table-wrap th[data-key="state"] { width: 10.5%; }
+.table-wrap th[data-key="source"] { width: 6.5%; }
+.table-wrap th[data-key="lastSeen"] { width: 9.5%; }
+
+.table-wrap th, .table-wrap td {
+  min-width: 0;
+  max-width: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.table-wrap td { padding: 12px 10px; }
+.table-wrap th button {
+  min-width: 0;
+  max-width: 100%;
+  padding: 12px 10px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+.table-wrap .app-button, .table-wrap .process-primary,
+.table-wrap .secondary, .table-wrap .endpoint,
+.table-wrap .name-cell, .table-wrap .explanation-cell,
+.table-wrap .explanation-button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-overflow: clip;
+}
+.table-wrap .app-button, .table-wrap .explanation-button { width: 100%; }
+
+/* Tablets, narrow desktop windows and increased browser zoom:
+   records become labeled grids. Column headings remain visible as sort
+   buttons. No field or timestamp is removed. These nth-child labels work
+   with existing reports without rewriting their scripts or record data. */
+@media screen and (max-width: 1199px) {
+  .table-wrap table, .table-wrap thead, .table-wrap tbody {
+    display: block;
+    width: 100%;
+  }
+  .table-wrap thead { padding: 10px; }
+  .table-wrap thead::before {
+    content: "Sort records by";
+    display: block;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .table-wrap thead tr {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .table-wrap thead th[data-key] {
+    display: block;
+    width: auto;
+    min-width: 0;
+  }
+  .table-wrap th button {
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+  .table-wrap tbody tr {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding: 10px;
+  }
+  .table-wrap tbody tr:nth-child(even) { background: var(--surface-2); }
+  .table-wrap tbody td {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    border: 0;
+    padding: 9px 10px;
+  }
+  .table-wrap tbody td:nth-child(4),
+  .table-wrap tbody td.empty { grid-column: 1 / -1; }
+  .table-wrap tbody td:nth-child(9) { grid-column: span 2; }
+  .table-wrap tbody td:not(.empty)::before {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 650;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .table-wrap td:nth-child(1)::before { content: "Process / application"; }
+  .table-wrap td:nth-child(2)::before { content: "Protocol"; }
+  .table-wrap td:nth-child(3)::before { content: "Remote endpoint"; }
+  .table-wrap td:nth-child(4)::before { content: "Explanation"; }
+  .table-wrap td:nth-child(5)::before { content: "DNS / name candidates"; }
+  .table-wrap td:nth-child(6)::before { content: "Registration"; }
+  .table-wrap td:nth-child(7)::before { content: "State / audit decision"; }
+  .table-wrap td:nth-child(8)::before { content: "Source"; }
+  .table-wrap td:nth-child(9)::before { content: "Last observed (UTC)"; }
+  .table-wrap tbody td.empty::before { content: none; }
+}
+
+@media screen and (max-width: 1050px) {
+  .filter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media screen and (max-width: 850px) {
+  .table-wrap tbody tr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .table-wrap tbody td:nth-child(1),
+  .table-wrap tbody td:nth-child(9) { grid-column: 1 / -1; }
+}
+@media screen and (max-width: 650px) {
+  .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .explanation-lists { grid-template-columns: minmax(0, 1fr); }
+  .table-wrap { max-height: none; overflow: visible; scrollbar-gutter: auto; }
+  .table-wrap thead { position: static; }
+  .table-wrap thead tr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .table-wrap tbody tr { grid-template-columns: minmax(0, 1fr); }
+  .table-wrap tbody td { grid-column: 1 / -1; padding: 8px 6px; }
+  .toolbar > span:last-child { display: block; }
+  .pagination { align-items: flex-start; }
+  .page-controls { max-width: 100%; flex-wrap: wrap; }
+  .dialog-top { gap: 10px; }
+  .dialog-top .close { flex: 0 0 auto; }
+  .registration { padding: 10px; }
+  .json { max-width: 100%; }
+}
+@media screen and (max-width: 380px) {
+  .filter-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Keep a real, fully wrapped table for printing. */
+@media print {
+  .table-wrap { max-height: none; overflow: visible; scrollbar-gutter: auto; }
+  .table-wrap table { display: table; table-layout: fixed; }
+  .table-wrap thead { display: table-header-group; position: static; }
+  .table-wrap tbody { display: table-row-group; }
+  .table-wrap tr { display: table-row; }
+  .table-wrap th, .table-wrap td { display: table-cell; }
+  .table-wrap thead::before, .table-wrap td::before { content: none; }
+  .table-wrap th button, .table-wrap td { padding: 6px 4px; font-size: 8px; }
+  .table-wrap .secondary, .table-wrap .endpoint,
+  .table-wrap .app-button, .table-wrap .explanation-button { font-size: 8px; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div><p class="eyebrow">Windows · Network investigation</p><h1>Which process is connecting?</h1><p class="subtitle">Connections, their Windows processes and registration data in one view. Search an application, service, IP address or explanation, then open a record to inspect the evidence.</p></div>
+    <div class="top-tools"><span class="local-tag">Local report · No external content</span><button type="button" id="theme" aria-label="Switch between light and dark mode">Light mode</button><button type="button" id="export">Export selection · CSV</button></div>
+  </header>
+  <div class="metadata" id="metadata"></div>
+  <div class="error-box" id="error" role="alert"></div>
+  <section class="stats" aria-label="Counts within the current selection">
+    <div class="stat"><p class="stat-label">Selected records</p><p class="stat-value accent" id="stat-rows">—</p><p class="stat-note" id="stat-total">Collected observations</p></div>
+    <div class="stat"><p class="stat-label">Applications</p><p class="stat-value" id="stat-apps">—</p><p class="stat-note">Based on the associated application</p></div>
+    <div class="stat"><p class="stat-label">Public remote IP addresses</p><p class="stat-value" id="stat-ips">—</p><p class="stat-note">Unique public remote addresses</p></div>
+    <div class="stat"><p class="stat-label">UDP → port 443</p><p class="stat-value" id="stat-quic">—</p><p class="stat-note">Possible QUIC; the port is not proof</p></div>
+  </section>
+  <aside class="information"><strong>Evidence for investigation, not a threat verdict.</strong> A connection or registration alone does not establish necessity, safety or misuse. Counts represent collected source records, not packets, bytes or connections that remain active.
+    <details><summary>Understand DNS, UDP and registration data</summary><p><strong>DNS names are candidates.</strong> Several domains can share an IP address. DNS-cache and reverse-DNS data do not prove which website a process visited. Check the evidence in the connection details. <strong>UDP endpoints</strong> without a remote address describe a local socket; additional observation is needed to determine its peer. <strong>WHOIS via RDAP</strong> identifies the registrant of an address range or domain, not necessarily the service behind a connection. Registration country is not server geolocation. Missing data remains unknown.</p></details>
+  </aside>
+  <aside class="information warning" id="warnings" hidden><strong>Collection limitations</strong><ul id="warning-list"></ul></aside>
+  <section class="panel" aria-label="Filter and inspect connections">
+    <div class="filters">
+      <div class="search-row"><label class="search-wrap"><span aria-hidden="true">⌕</span><span class="sr-only">Search all collected fields</span><input type="search" id="search" placeholder="Search process, PID, service, explanation, IP, DNS, registration, port…" autocomplete="off" spellcheck="false"></label><button type="button" class="reset" id="reset">Reset filters</button></div>
+      <div class="filter-grid">
+        <label class="field">Protocol<select id="filter-protocol"><option value="">All protocols</option></select></label>
+        <label class="field">Application<select id="filter-app"><option value="">All applications</option></select></label>
+        <label class="field">State<select id="filter-state"><option value="">All states</option></select></label>
+        <label class="field">Source<select id="filter-source"><option value="">All sources</option></select></label>
+        <label class="field">Address scope<select id="filter-scope"><option value="">All scopes</option></select></label>
+        <label class="field">Audit decision<select id="filter-allowed"><option value="">All decisions</option></select></label>
+        <label class="field">Purpose category<select id="filter-category"><option value="">All purposes</option></select></label>
+        <label class="field">Purpose confidence<select id="filter-confidence"><option value="">All confidence levels</option></select></label>
+        <label class="field">Process attribution<select id="filter-attribution"><option value="">All attribution results</option></select></label>
+      </div>
+<div class="advanced-filters"><p class="advanced-intro">Refine the selection. Active fields are combined with AND; comma-separated IPs, ports, PIDs and countries match any listed alternative.</p><details class="advanced-group"><summary>Process and executable</summary><p class="advanced-help">Text fields match part of the saved value without case sensitivity. PIDs accept comma-separated numbers or ranges. Service descriptions come from Windows and may use the system language.</p><div class="advanced-grid"><label class="field">Process name<input id="adv-processName" type="text" maxlength="2048" placeholder="e.g. svchost.exe" autocomplete="off" spellcheck="false"></label><label class="field">Process IDs<input id="adv-processId" type="text" maxlength="2048" placeholder="e.g. 4,1200-1300" autocomplete="off" spellcheck="false"></label><label class="field">Executable path contains<input id="adv-processPath" type="text" maxlength="2048" placeholder="e.g. Windows\System32" autocomplete="off" spellcheck="false"></label><label class="field">Windows service or description<input id="adv-service" type="text" maxlength="2048" placeholder="e.g. DNS Client" autocomplete="off" spellcheck="false"></label><label class="field">Company metadata contains<input id="adv-company" type="text" maxlength="2048" placeholder="e.g. Microsoft" autocomplete="off" spellcheck="false"></label><label class="field">Signer contains<input id="adv-signer" type="text" maxlength="2048" placeholder="Publisher name" autocomplete="off" spellcheck="false"></label><label class="field">Signature result<select id="adv-signature"><option value="">Any result</option></select></label><label class="field">File metadata result<select id="adv-metadataStatus"><option value="">Any result</option></select></label><label class="field">SHA-256 contains<input id="adv-hash" type="text" maxlength="2048" placeholder="Full hash or substring" autocomplete="off" spellcheck="false"></label></div></details><details class="advanced-group"><summary>Addresses, ports and direction</summary><p class="advanced-help">IPs accept exact IPv4/IPv6 addresses or CIDR networks; separate alternatives with commas. Ports accept numbers and ranges. IP family uses the remote address, or the local address when the peer is missing.</p><div class="advanced-grid"><label class="field">Local IP or CIDR<input id="adv-localIp" type="text" maxlength="2048" placeholder="e.g. 10.10.10.0/24" autocomplete="off" spellcheck="false"></label><label class="field">Remote IP or CIDR<input id="adv-remoteIp" type="text" maxlength="2048" placeholder="e.g. 1.1.1.1,2606:4700::/32" autocomplete="off" spellcheck="false"></label><label class="field">Local ports<input id="adv-localPort" type="text" maxlength="2048" placeholder="e.g. 53,443,50000-55000" autocomplete="off" spellcheck="false"></label><label class="field">Remote ports<input id="adv-remotePort" type="text" maxlength="2048" placeholder="e.g. 80,443,8000-8100" autocomplete="off" spellcheck="false"></label><label class="field">Direction<select id="adv-direction"><option value="">Any direction</option><option value="Inbound">Inbound</option><option value="Outbound">Outbound</option><option value="Unknown">Unknown</option></select></label><label class="field">IP address family<select id="adv-ipFamily"><option value="">Any family</option><option value="IPv4">IPv4</option><option value="IPv6">IPv6</option><option value="Unknown">Unknown</option></select></label><label class="field">Remote endpoint recorded<select id="adv-remotePresence"><option value="">Any</option><option value="recorded">Recorded</option><option value="missing">Missing / unspecified</option></select></label></div></details><details class="advanced-group"><summary>DNS and remote registration</summary><p class="advanced-help">DNS and reverse-DNS names are candidates. Registration filters examine the remote IP and associated domain registrations. Country means registration country, not server location.</p><div class="advanced-grid"><label class="field">DNS candidate contains<input id="adv-dnsName" type="text" maxlength="2048" placeholder="e.g. example.com" autocomplete="off" spellcheck="false"></label><label class="field">Reverse DNS contains<input id="adv-ptrName" type="text" maxlength="2048" placeholder="e.g. provider.net" autocomplete="off" spellcheck="false"></label><label class="field">DNS candidate recorded<select id="adv-dnsPresence"><option value="">Any</option><option value="recorded">Recorded</option><option value="missing">Missing</option></select></label><label class="field">Remote organization or registered name<input id="adv-organization" type="text" maxlength="2048" placeholder="e.g. Cloudflare" autocomplete="off" spellcheck="false"></label><label class="field">Registration country codes<input id="adv-country" type="text" maxlength="2048" placeholder="e.g. NL,US" autocomplete="off" spellcheck="false"></label><label class="field">Remote registration result<select id="adv-rdapStatus"><option value="">Any result</option></select></label></div></details><details class="advanced-group"><summary>Observation time and repetition</summary><p class="advanced-help">Times are UTC, matching the table. A record matches when its first-to-last-observed interval overlaps the selected period. Observation counts are source sightings, not packet or byte counts.</p><div class="advanced-grid"><label class="field">Observed from (UTC)<input id="adv-timeFrom" type="datetime-local" step="1" placeholder="" autocomplete="off" spellcheck="false"></label><label class="field">Observed until (UTC)<input id="adv-timeTo" type="datetime-local" step="1" placeholder="" autocomplete="off" spellcheck="false"></label><label class="field">Minimum observations<input id="adv-minObservations" type="number" min="0" step="1" placeholder="e.g. 2" autocomplete="off" spellcheck="false"></label><label class="field">Maximum observations<input id="adv-maxObservations" type="number" min="0" step="1" placeholder="e.g. 100" autocomplete="off" spellcheck="false"></label></div></details><div id="filter-errors" class="filter-errors" role="alert" hidden></div></div>
+      <div class="filter-bottom"><div class="chips"><button type="button" class="chip" id="chip-quic" aria-pressed="false">UDP 443 only</button><button type="button" class="chip" id="chip-public" aria-pressed="false">Public internet only</button></div><label class="checkbox"><input id="show-listening" type="checkbox" checked>Show listening sockets</label></div>
+    </div>
+    <div class="toolbar"><span id="result-count" aria-live="polite">Loading report…</span><span><span id="active-filters">No active filters</span> · Times in UTC</span></div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Sortable connection records; all fields fit the available width">
+      <table><caption class="sr-only">Collected network records. Select a column heading to sort.</caption><thead><tr>
+        <th scope="col" data-key="app"><button type="button">Process / application<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="protocol"><button type="button">Protocol<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="remote"><button type="button">Remote endpoint<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="explanation"><button type="button">Explanation<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="dns"><button type="button">DNS / name candidates<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="owner"><button type="button">Registration<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="state"><button type="button">State / audit decision<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="source"><button type="button">Source<span class="sort" aria-hidden="true"></span></button></th>
+        <th scope="col" data-key="lastSeen"><button type="button">Last observed<span class="sort" aria-hidden="true"></span></button></th>
+      </tr></thead><tbody id="rows"></tbody></table>
+    </div>
+    <div class="pagination"><label class="per-page">Records per page <select id="page-size"><option>50</option><option>100</option><option>250</option><option>500</option></select></label><span class="collection-count">A record may combine multiple observations.</span><div class="page-controls"><button type="button" id="previous" aria-label="Previous page">← Previous</button><span id="page-status">—</span><button type="button" id="next" aria-label="Next page">Next →</button></div></div>
+  </section>
+  <footer class="footer"><p>The report makes no background requests. Registration links open only when selected. A valid file signature does not prove that network behavior is safe.</p><span id="time-zone"></span></footer>
+</main>
+<dialog id="detail" aria-labelledby="detail-title"><div class="dialog-top"><div><p class="eyebrow">Connection details</p><h2 id="detail-title">Connection</h2><p id="detail-subtitle"></p></div><button type="button" id="close-detail" class="close" aria-label="Close connection details">×</button></div><div id="detail-body" class="detail-body"></div></dialog>
+<script>
+__NETWORK_REPORT_FILTER_ENGINE__
+</script>
+<script id="report-data" type="application/json">__NETWORK_REPORT_DATA__</script>
+<script>
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const number = value => Number(value || 0).toLocaleString('en-US');
+  const string = value => value === undefined || value === null ? '' : typeof value === 'object' ? JSON.stringify(value) : String(value);
+  const list = value => Array.isArray(value) ? value.map(v => typeof v === 'object' && v !== null ? string(v.name || v.domain || v.hostname || v) : string(v)).filter(Boolean) : value ? [string(value)] : [];
+  const display = value => string(value) || 'Not recorded';
+  const element = (tag, text, className) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = string(text); if (className) e.className = className; return e; };
+  const formatTime = value => {if (!value) return '—'; const d = new Date(value); return Number.isNaN(d.getTime()) ? string(value) : d.toISOString().replace('T',' ').replace(/\.\d{3}Z$/,' UTC');};
+  const endpoint = (address,port) => {const a=string(address);if(!a)return 'Destination unknown';return (a.includes(':')?'['+a+']':a)+(port!==undefined&&port!==null&&string(port)!==''?':'+port:'');};
+  const appName = r => string(r.application || r.processName || 'Unknown application');
+  const array = value => Array.isArray(value) ? value : [];
+const connectionRoute=r=>{const local='Local '+endpoint(r.localAddress,r.localPort),remote='Remote '+endpoint(r.remoteAddress,r.remotePort),direction=string(r.direction).toLowerCase();return direction==='inbound'?remote+' → '+local:direction==='outbound'?local+' → '+remote:local+' | '+remote;};
+const processLabel=r=>(string(r.processName)||'Unknown process')+(r.processId!==undefined&&r.processId!==null?' · PID '+string(r.processId):'');
+const attributionCode=r=>string(r.attributionStatus)||'NotRecorded';
+const attributionLabels={MatchedLiveProcess:'Matched live process',WfpEventPathOnly:'WFP event path only',SystemProcess:'Windows System process',Unassigned:'Unassigned',Unavailable:'Unavailable',NotRecorded:'Attribution not recorded'};
+const attributionLabel=r=>attributionLabels[attributionCode(r)]||attributionCode(r);
+const serviceDetails=r=>array(r.serviceDetails).filter(v=>v&&typeof v==='object'&&!Array.isArray(v));
+const serviceLabels=r=>{const details=serviceDetails(r);return details.length?details.map(v=>string(v.displayName||v.name)).filter(Boolean):list(r.services);};
+const explanation=r=>r.explanation&&typeof r.explanation==='object'&&!Array.isArray(r.explanation)?r.explanation:{};
+const explanationSummary=r=>string(explanation(r).summary)||'The purpose of this connection was not recorded. Open its evidence for details.';
+const purposeCategory=r=>string(explanation(r).category)||'Unknown';
+const purposeConfidence=r=>['Observed','Likely','Unknown'].includes(string(explanation(r).confidence))?string(explanation(r).confidence):'Unknown';
+  const allNames = r => [...new Set([...list(r.dnsNames),...list(r.ptrNames)])];
+  const scope = r => string(r.ipScope || 'Unknown');
+  const isPublic = r => /^(public|global|internet|external)$/i.test(scope(r));
+  const isListening = r => /^(listen|listening)$/i.test(string(r.state));
+  const isQuicPort = r => string(r.protocol).toUpperCase()==='UDP' && Number(r.remotePort)===443;
+  const decision = r => {const a=r.allowed; if(a===true||/^(true|allow|allowed|permit|permitted)$/i.test(string(a)))return 'Allowed';if(a===false||/^(false|block|blocked|deny|denied)$/i.test(string(a)))return 'Blocked';return string(a)||'Unknown';};
+  const registration = r => r.ipRegistration && typeof r.ipRegistration==='object' ? r.ipRegistration : {};
+  const localRegistration = r => r.localIpRegistration && typeof r.localIpRegistration==='object' ? r.localIpRegistration : {};
+  const owner = r => {const q=registration(r);return string(q.organization || q.name);};
+  let data;
+  try {data = JSON.parse($('report-data').textContent); if(!data || !Array.isArray(data.connections))throw new Error('connections is missing or is not an array.');}
+  catch(error){$('error').style.display='block';$('error').textContent='The data in this report could not be read. Generate the report again.\n'+error.message;$('result-count').textContent='No data loaded.';return;}
+  const meta = data.meta || {};
+  const records = data.connections.filter(r=>r&&typeof r==='object').map((r,index)=>({raw:r,index,search:JSON.stringify(r).toLocaleLowerCase('en-US')}));
+  let filtered=records.slice(), page=1, pageSize=50, sortKey='lastSeen', ascending=false, searchTimer;
+  const controls={protocol:$('filter-protocol'),app:$('filter-app'),state:$('filter-state'),source:$('filter-source'),scope:$('filter-scope'),allowed:$('filter-allowed'),category:$('filter-category'),confidence:$('filter-confidence'),attribution:$('filter-attribution')};
+  const values={protocol:r=>string(r.protocol)||'Unknown',app:appName,state:r=>string(r.state)||'Unknown',source:r=>string(r.source)||'Unknown',scope,allowed:decision,category:purposeCategory,confidence:purposeConfidence,attribution:attributionLabel};
+  Object.keys(controls).forEach(key=>{[...new Set(records.map(x=>values[key](x.raw)))].sort((a,b)=>a.localeCompare(b,'en',{numeric:true})).forEach(value=>{const option=element('option',value);option.value=value;controls[key].appendChild(option);});controls[key].addEventListener('change',applyFilters);});
+  const advancedKeys=['processName', 'processId', 'processPath', 'service', 'company', 'signer', 'signature', 'metadataStatus', 'hash', 'localIp', 'remoteIp', 'localPort', 'remotePort', 'direction', 'ipFamily', 'remotePresence', 'dnsName', 'ptrName', 'dnsPresence', 'organization', 'country', 'rdapStatus', 'timeFrom', 'timeTo', 'minObservations', 'maxObservations'];
+  const advancedControls=Object.fromEntries(advancedKeys.map(key=>[key,$('adv-'+key)]));
+  ['signature','metadataStatus','rdapStatus'].forEach(key=>{const vals=records.flatMap(item=>key==='rdapStatus'?[item.raw.ipRegistration,...array(item.raw.domainRegistrations)].filter(v=>v&&typeof v==='object').map(v=>string(v.status)||'Not recorded'):[string(item.raw[key==='signature'?'signatureStatus':key])||'Not recorded']);if(key==='rdapStatus')vals.push('Not recorded');[...new Set(vals)].sort((a,b)=>a.localeCompare(b,'en',{numeric:true})).forEach(value=>{const option=element('option',value);option.value=value;advancedControls[key].appendChild(option);});});
+  Object.values(advancedControls).forEach(control=>{control.addEventListener('change',applyFilters);control.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(applyFilters,160);});});
+  function metadata(label,value){const span=element('span');span.appendChild(document.createTextNode(label+' '));span.appendChild(element('strong',value));$('metadata').appendChild(span);}
+  metadata('Computer',meta.computer||'Unknown'); metadata('Start',formatTime(meta.started));metadata('End',formatTime(meta.finished));
+  if(meta.version)metadata('Version',meta.version);if(meta.phase)metadata('Processing stage',meta.phase);
+  if(meta.durationSeconds!==undefined)metadata('Recording duration',number(meta.durationSeconds)+' sec.');
+  if(list(meta.sources).length)metadata('Sources',list(meta.sources).join(', '));
+  $('time-zone').textContent='All report timestamps and time filters use UTC.';
+  list(meta.warnings).forEach(w=>$('warning-list').appendChild(element('li',w)));
+  $('warnings').hidden=!list(meta.warnings).length;
+  try {if(window.matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.classList.add('light');}catch(ignore){}
+  function themeLabel(){$('theme').textContent=document.documentElement.classList.contains('light')?'Dark mode':'Light mode';}
+  themeLabel();$('theme').addEventListener('click',()=>{document.documentElement.classList.toggle('light');themeLabel();});
+  $('search').addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(applyFilters,160);});
+  ['chip-quic','chip-public'].forEach(id=>$(id).addEventListener('click',()=>{$(id).setAttribute('aria-pressed',$(id).getAttribute('aria-pressed')==='true'?'false':'true');applyFilters();}));
+  $('show-listening').addEventListener('change',applyFilters);
+  $('reset').addEventListener('click',()=>{clearTimeout(searchTimer);$('search').value='';Object.values(controls).forEach(e=>e.value='');Object.values(advancedControls).forEach(e=>e.value='');['chip-quic','chip-public'].forEach(id=>$(id).setAttribute('aria-pressed','false'));$('show-listening').checked=true;applyFilters();$('search').focus();});
+  function applyFilters(){
+    const query=$('search').value.trim().toLocaleLowerCase('en-US').split(/\s+/).filter(Boolean);
+    const quic=$('chip-quic').getAttribute('aria-pressed')==='true', pub=$('chip-public').getAttribute('aria-pressed')==='true';
+    const state=Object.fromEntries(advancedKeys.map(key=>[key,advancedControls[key].value]));
+    const compiled=globalThis.NetworkReportFilters ? globalThis.NetworkReportFilters.compile(state) : {errors:['The filter engine is missing. Rebuild the report using the complete script package.'],matches:()=>false};
+    $('filter-errors').replaceChildren(...compiled.errors.map(error=>element('p',error)));$('filter-errors').hidden=!compiled.errors.length;
+    const active=Object.values(controls).filter(e=>e.value).length+Object.values(state).filter(v=>v.trim()).length+(query.length?1:0)+(quic?1:0)+(pub?1:0)+($('show-listening').checked?0:1);$('active-filters').textContent=active?number(active)+' active filter'+(active===1?'':'s'):'No active filters';
+    filtered=records.filter(item=>{const r=item.raw;return compiled.matches(r)&&query.every(term=>item.search.includes(term))&&Object.keys(controls).every(key=>!controls[key].value||values[key](r)===controls[key].value)&&(!quic||isQuicPort(r))&&(!pub||isPublic(r))&&($('show-listening').checked||!isListening(r));});
+    page=1;sortRecords();updateStats();render();
+  }
+  const sortValues={app:processLabel,explanation:explanationSummary,protocol:r=>string(r.protocol),remote:r=>endpoint(r.remoteAddress,r.remotePort),dns:r=>allNames(r).join(' '),owner,state:r=>string(r.state)+' '+decision(r),source:r=>string(r.source),lastSeen:r=>{const d=Date.parse(r.lastSeen);return Number.isNaN(d)?0:d;}};
+  function sortRecords(){const fn=sortValues[sortKey];filtered.sort((a,b)=>{const x=fn(a.raw),y=fn(b.raw);const result=typeof x==='number'&&typeof y==='number'?x-y:string(x).localeCompare(string(y),'en',{numeric:true,sensitivity:'base'});return result?(ascending?result:-result):a.index-b.index;});document.querySelectorAll('th[data-key]').forEach(th=>{const active=th.dataset.key===sortKey;th.setAttribute('aria-sort',active?(ascending?'ascending':'descending'):'none');th.querySelector('.sort').textContent=active?(ascending?'↑':'↓'):'';});}
+  document.querySelectorAll('th[data-key] button').forEach(button=>button.addEventListener('click',()=>{const key=button.parentElement.dataset.key;if(sortKey===key)ascending=!ascending;else{sortKey=key;ascending=key!=='lastSeen';}sortRecords();page=1;render();}));
+  function updateStats(){$('stat-rows').textContent=number(filtered.length);$('stat-total').textContent='Of '+number(records.length)+' collected records';$('stat-apps').textContent=number(new Set(filtered.map(x=>appName(x.raw))).size);$('stat-ips').textContent=number(new Set(filtered.filter(x=>isPublic(x.raw)&&x.raw.remoteAddress).map(x=>x.raw.remoteAddress)).size);$('stat-quic').textContent=number(filtered.filter(x=>isQuicPort(x.raw)).length);$('export').disabled=!filtered.length;}
+  function cell(parent,text,className){const td=element('td',undefined,className);if(text!==undefined)td.textContent=string(text);parent.appendChild(td);return td;}
+  function second(parent,text,title){const d=element('div',text,'secondary');if(title)d.title=title;parent.appendChild(d);return d;}
+  function render(){
+    const pages=Math.max(1,Math.ceil(filtered.length/pageSize));page=Math.min(Math.max(1,page),pages);const start=(page-1)*pageSize, end=Math.min(start+pageSize,filtered.length),fragment=document.createDocumentFragment();
+    filtered.slice(start,end).forEach(item=>{const r=item.raw,tr=element('tr');
+      const app=cell(tr);const button=element('button',processLabel(r),'app-button process-primary');button.type='button';button.title='View details: '+processLabel(r);button.addEventListener('click',()=>openDetail(r));app.appendChild(button);second(app,appName(r),string(r.processPath));second(app,attributionLabel(r));const serviceNames=serviceLabels(r);if(serviceNames.length)second(app,serviceNames.join(', '),serviceNames.join('\n'));
+      const proto=cell(tr);const p=string(r.protocol).toUpperCase();proto.appendChild(element('span',p||'—','badge '+(p==='TCP'?'badge-tcp':p==='UDP'?'badge-udp':'')));second(proto,scope(r));
+      const remote=cell(tr);const remoteText=endpoint(r.remoteAddress,r.remotePort);const remoteEl=element('div',remoteText,'mono endpoint');remoteEl.title=remoteText;remote.appendChild(remoteEl);second(remote,'Local '+endpoint(r.localAddress,r.localPort));
+      const explanationCell=cell(tr,undefined,'explanation-cell');const explanationButton=element('button',explanationSummary(r),'explanation-button');explanationButton.type='button';explanationButton.addEventListener('click',()=>openDetail(r));explanationCell.appendChild(explanationButton);second(explanationCell,purposeCategory(r)+' · Purpose: '+purposeConfidence(r));
+      const dns=cell(tr),names=allNames(r);const name=element('div',names[0]||'No name recorded','name-cell');name.title=names.join('\n');dns.appendChild(name);if(names.length>1)second(dns,'+'+(names.length-1)+' name candidates');else second(dns, names.length?'See evidence in details':'DNS is not always available');
+      const reg=registration(r),regCell=cell(tr);const own=element('div',owner(r)||'No registration','name-cell');own.title=owner(r);regCell.appendChild(own);second(regCell,reg.country?'Registration country: '+reg.country:reg.status||'—');
+      const state=cell(tr);state.appendChild(element('div',r.state||'Unknown'));const d=decision(r);second(state,d==='Unknown'?'Decision not recorded':d);if(d==='Blocked')state.lastChild.classList.add('badge-block');
+      const source=cell(tr);source.appendChild(element('div',r.source||'Unknown'));if(r.direction)second(source,r.direction);
+      const seen=cell(tr);seen.appendChild(element('div',formatTime(r.lastSeen)));second(seen,'First: '+formatTime(r.firstSeen));fragment.appendChild(tr);
+    });
+    if(!filtered.length){const tr=element('tr'),td=cell(tr,undefined,'empty');td.colSpan=9;td.appendChild(element('strong',records.length?'No matching records':'No connections recorded'));td.appendChild(document.createTextNode(records.length?'Adjust the search or filters.':'Review the collection messages above and the saved capture.'));fragment.appendChild(tr);}
+    $('rows').replaceChildren(fragment);$('result-count').replaceChildren(element('strong',number(filtered.length)+' records'),document.createTextNode(' selected · '+(filtered.length?number(start+1)+'–'+number(end):'0')+' shown'));
+    $('page-status').textContent=page+' / '+pages;$('previous').disabled=page===1;$('next').disabled=page===pages;
+  }
+  $('page-size').addEventListener('change',()=>{pageSize=Number($('page-size').value);page=1;render();});$('previous').addEventListener('click',()=>{page--;render();});$('next').addEventListener('click',()=>{page++;render();});
+  function section(title){const s=element('section',undefined,'detail-section');s.appendChild(element('h3',title));$('detail-body').appendChild(s);return s;}
+  function definition(parent,entries){const dl=element('dl');entries.forEach(([key,value])=>{dl.appendChild(element('dt',key));dl.appendChild(element('dd',display(value)));});parent.appendChild(dl);}
+  function safeHttps(value){try{const u=new URL(string(value));return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch(ignore){return null;}}
+  function safeRawFile(value){const v=string(value).replace(/\\/g,'/');return v&&!v.startsWith('/')&&!v.includes('..')&&/^[A-Za-z0-9_./-]+\.json$/i.test(v)?v:null;}
+  function addLink(parent,url,label){const a=element('a',label,'list-link');a.href=url;a.target='_blank';a.rel='noopener noreferrer';parent.appendChild(a);}
+function regCard(parent,r,label){const c=element('div',undefined,'registration');c.appendChild(element('h4',label+((r.query||r.registeredDomain)?' · '+(r.query||r.registeredDomain):'')));definition(c,[['Result',r.status],['Registered name',r.name],['Organization',r.organization],['Registration ID',r.handle],['Registration country',r.country],['IP range',[r.startAddress,r.endAddress].filter(Boolean).join(' – ')],['Registrar',r.registrar],['Registered domain',r.registeredDomain],['Limitation / error',r.error]].filter(x=>string(x[1])!==''));[['Registration events',r.registrationEvents],['Entity contacts',r.entities],['Registry notices',r.notices],['Redacted fields',r.redactedFields]].forEach(([label,items])=>{if(array(items).length){const d=element('details');d.className='context';d.appendChild(element('summary',label+' ('+number(items.length)+')'));d.appendChild(element('pre',JSON.stringify(items,null,2),'json'));c.appendChild(d);}});definition(c,[['Registered',r.registeredUtc],['Last updated',r.updatedUtc],['Registration status codes',list(r.registrationStatuses).join(', ')],['HTTP status',r.httpStatus],['Lookup attempts',r.attempts],['Registration retrieved',r.retrievedUtc?formatTime(r.retrievedUtc):null]].filter(x=>string(x[1])!==''));const u=safeHttps(r.sourceUrl);if(u)addLink(c,u,'Open RDAP source ↗');const raw=safeRawFile(r.rawFile);if(raw)addLink(c,raw,'Open saved registration JSON ↗');parent.appendChild(c);}
+function explanationList(parent,title,items,fallback){const box=element('div');box.appendChild(element('h4',title));const ul=element('ul'),values=list(items);(values.length?values:[fallback]).forEach(v=>ul.appendChild(element('li',v)));box.appendChild(ul);parent.appendChild(box);}
+function openDetail(r){
+ const id=r.id;
+ $('detail-title').textContent=processLabel(r);$('detail-subtitle').textContent=appName(r)+' · '+string(r.protocol)+' · '+connectionRoute(r);$('detail-body').replaceChildren();
+ const xp=explanation(r),purpose=section('What this connection may be for');
+ purpose.appendChild(element('p',explanationSummary(r),'explanation-lead'));
+ definition(purpose,[['Purpose category',purposeCategory(r)],['Purpose confidence',purposeConfidence(r)],['Process role',xp.processRole||'The role of this process was not recorded.'],['Possible purpose',xp.purpose||'The exact purpose cannot be determined from this record.'],['Necessity',xp.necessity||'Whether this connection is needed depends on the features you use; this capture cannot decide that automatically.']]);
+ purpose.appendChild(element('p','Confidence refers to the explanation of purpose. It is not a trust rating or a safety verdict. A familiar process name, service name or valid signature does not prove that its traffic is necessary.','detail-note'));
+ const lists=element('div',undefined,'explanation-lists');explanationList(lists,'Supporting evidence',xp.evidence,'No additional explanation evidence was recorded.');explanationList(lists,'Limits of this explanation',xp.limitations,'This record does not include application content or user intent.');purpose.appendChild(lists);
+ const next=element('div',undefined,'next-check');next.appendChild(element('strong','Suggested next check'));next.appendChild(element('span',xp.suggestedCheck||'Compare the process, destination and timing with an action you recognize. Keep unknown values unresolved until there is supporting evidence.'));purpose.appendChild(next);
+ const app=section('Identified process and file identity');
+ definition(app,[['Process',r.processName||'Unknown process'],['Process ID',r.processId],['Application',r.application],['Process attribution',attributionLabel(r)],['Attribution evidence',r.processEvidence||r.attribution],['Process start',r.processStartTimeUtc?formatTime(r.processStartTimeUtc):null],['Executable path',r.processPath],['Company metadata',r.company],['File version',r.fileVersion],['Signature status',r.signatureStatus],['Signer',r.signer],['SHA-256',r.sha256],['Hash result',r.hashStatus],['File metadata collected',r.metadataCollectedUtc?formatTime(r.metadataCollectedUtc):null],['Metadata result',r.metadataStatus],['Metadata limitation / error',r.metadataError],['File size',string(r.fileSize).trim()===''?null:number(r.fileSize)+' bytes'],['File last modified',r.lastWriteUtc?formatTime(r.lastWriteUtc):null]]);
+ app.appendChild(element('p','A process ID can be reused. Attribution depends on capture source and process lifetime. File hashes and signatures describe the file at metadata collection time; they do not certify the captured behavior.','detail-note'));
+ const services=section('Windows services hosted by this process');
+ services.appendChild(element('p',xp.serviceContext||'Services are associated with the observed process ID. A shared host can contain several services; this is not proof that any specific service created the connection.','detail-note'));
+ if(r.serviceEvidence)definition(services,[['Service association evidence',r.serviceEvidence]]);
+ const sd=serviceDetails(r);if(sd.length){sd.forEach(v=>{const card=element('article',undefined,'service-card');card.appendChild(element('h4',v.displayName||v.name||'Service'));if(v.description)card.appendChild(element('p',v.description));definition(card,[['Service name',v.name],['State at collection',v.state],['Start mode',v.startMode]]);services.appendChild(card);});}else{services.appendChild(element('p',list(r.services).length?'Recorded service names: '+list(r.services).join(', '):'No hosted Windows services were recorded for this process.','detail-note'));}
+ const network=section('Connection and observation');
+ definition(network,[['Record ID',id],['Protocol',r.protocol],['Local endpoint',endpoint(r.localAddress,r.localPort)],['Remote endpoint',endpoint(r.remoteAddress,r.remotePort)],['Remote scope',scope(r)],['Local scope',r.localIpScope],['State',r.state],['Windows audit decision',decision(r)],['Direction',r.direction],['Source',r.source],['Socket created',r.socketCreatedUtc?formatTime(r.socketCreatedUtc):null],['First observed',formatTime(r.firstSeen)],['Last observed',formatTime(r.lastSeen)],['Observations in this record',r.observations],['States observed',list(r.states).join(', ')]]);
+ network.appendChild(element('p','An audit allow event is not proof of successful delivery or of every security product allowing the traffic. Snapshot state and audit decisions describe their own collection source.','detail-note'));
+ const dns=section('DNS candidates and evidence');definition(dns,[['DNS candidates',list(r.dnsNames).join('\n')],['DNS evidence',Array.isArray(r.dnsEvidence)?r.dnsEvidence.map(string).join('\n'):r.dnsEvidence],['Reverse DNS (PTR)',list(r.ptrNames).join('\n')],['PTR lookup result',r.ptrStatus],['PTR limitation / error',r.ptrError]]);dns.appendChild(element('p','A cache entry or PTR response does not prove that this process requested or visited the name. Shared hosting and CDNs can associate multiple domains with one address.','detail-note'));
+ const rr=section('WHOIS / RDAP registrations');rr.appendChild(element('p','Registrations describe the registrant of an address range or domain. This is not necessarily the application provider, and the registration country is not server geolocation.','detail-note'));if(r.localIpRegistration&&typeof r.localIpRegistration==='object')regCard(rr,r.localIpRegistration,'Local IP');if(r.ipRegistration&&typeof r.ipRegistration==='object')regCard(rr,r.ipRegistration,'Remote IP');array(r.domainRegistrations).forEach(d=>{if(d&&typeof d==='object')regCard(rr,d,'Domain');});if(!r.ipRegistration&&!r.localIpRegistration&&!array(r.domainRegistrations).length)rr.appendChild(element('p','No registration data recorded.','detail-note'));
+ const raw=section('Original record'),d=element('details');d.appendChild(element('summary','Show all saved fields as JSON'));d.appendChild(element('pre',JSON.stringify(r,null,2),'json'));raw.appendChild(d);$('detail').showModal();$('close-detail').focus();
+}
+  $('close-detail').addEventListener('click',()=>$('detail').close());$('detail').addEventListener('click',event=>{if(event.target===$('detail')){const box=$('detail').getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)$('detail').close();}});
+  function csvValue(value){let s=string(value).replace(/\u0000/g,'');if(/^[\s\uFEFF]*[=+\-@]/.test(s)||/^[\t\r\n]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+  $('export').addEventListener('click',()=>{
+    const fields=[['Record ID',r=>r.id],['Application',r=>r.application],['Process',r=>r.processName],['PID',r=>r.processId],['Process path',r=>r.processPath],['Process start UTC',r=>r.processStartTimeUtc],['Process attribution',r=>r.attribution],['Attribution status',attributionCode],['Process evidence',r=>r.processEvidence],['Windows services',r=>list(r.services).join(' | ')],['Service details JSON',serviceDetails],['Service evidence',r=>r.serviceEvidence],['Purpose category',purposeCategory],['Purpose confidence',purposeConfidence],['Explanation',explanationSummary],['Process role',r=>explanation(r).processRole],['Possible purpose',r=>explanation(r).purpose],['Necessity',r=>explanation(r).necessity],['Supporting evidence',r=>list(explanation(r).evidence).join(' | ')],['Explanation limitations',r=>list(explanation(r).limitations).join(' | ')],['Suggested next check',r=>explanation(r).suggestedCheck],['Service context',r=>explanation(r).serviceContext],['Protocol',r=>r.protocol],['Local IP',r=>r.localAddress],['Local port',r=>r.localPort],['Local IP scope',r=>r.localIpScope],['Local IP organization',r=>localRegistration(r).organization],['Local IP registered name',r=>localRegistration(r).name],['Local IP registration country',r=>localRegistration(r).country],['Local IP registration status',r=>localRegistration(r).status],['Local IP RDAP source',r=>localRegistration(r).sourceUrl],['Remote IP',r=>r.remoteAddress],['Remote port',r=>r.remotePort],['DNS candidates',r=>list(r.dnsNames).join(' | ')],['DNS evidence',r=>r.dnsEvidence],['Reverse DNS',r=>list(r.ptrNames).join(' | ')],['State',r=>r.state],['Audit decision',decision],['Direction',r=>r.direction],['Source',r=>r.source],['Address scope',scope],['First observed UTC',r=>r.firstSeen],['Last observed UTC',r=>r.lastSeen],['Observations',r=>r.observations],['Socket created UTC',r=>r.socketCreatedUtc],['Hash result',r=>r.hashStatus],['PTR result',r=>r.ptrStatus],['PTR limitation / error',r=>r.ptrError],['Signature status',r=>r.signatureStatus],['Signer',r=>r.signer],['SHA-256',r=>r.sha256],['Metadata collected UTC',r=>r.metadataCollectedUtc],['Metadata result',r=>r.metadataStatus],['Metadata error',r=>r.metadataError],['File version',r=>r.fileVersion],['File size',r=>r.fileSize],['Company metadata',r=>r.company],['IP organization',r=>registration(r).organization],['IP registered name',r=>registration(r).name],['Registration country',r=>registration(r).country],['Registration status',r=>registration(r).status],['RDAP source',r=>registration(r).sourceUrl],['Domain registrations JSON',r=>r.domainRegistrations]];
+    const lines=[fields.map(x=>csvValue(x[0])).join(';'),...filtered.map(item=>fields.map(x=>csvValue(x[1](item.raw))).join(';'))];const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=element('a');a.href=url;a.download='network-selection-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  applyFilters();
+})();
+</script>
+</body>
+</html>

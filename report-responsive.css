@@ -1,0 +1,194 @@
+/* Windows Network Analyzer 3.0.1 - responsive connection report.
+   Keep all nine columns and all original record data. Do not hide horizontal
+   overflow: size the table to the viewport and wrap long values instead.
+   This same stylesheet can be injected into an existing 3.0 report. */
+
+.wrap, .panel, .filters, .field, .search-wrap,
+.top > div, .dialog-top > div, .metadata > span,
+.toolbar > span, .pagination > *, .footer > * {
+  min-width: 0;
+}
+
+.filter-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.8fr)
+    minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.1fr);
+}
+.field input, .field select { max-width: 100%; }
+.metadata, .toolbar, .footer, .dialog-top { overflow-wrap: anywhere; }
+.toolbar { flex-wrap: wrap; }
+.explanation-lists { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Wide screens: allocate column widths explicitly, rather than allowing
+   unbroken process names, addresses and timestamps to expand the table. */
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  max-height: min(72vh, 760px);
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.table-wrap table {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  white-space: normal;
+}
+.table-wrap th[data-key="app"] { width: 15%; }
+.table-wrap th[data-key="protocol"] { width: 5.5%; }
+.table-wrap th[data-key="remote"] { width: 11%; }
+.table-wrap th[data-key="explanation"] { width: 20%; }
+.table-wrap th[data-key="dns"] { width: 12%; }
+.table-wrap th[data-key="owner"] { width: 10%; }
+.table-wrap th[data-key="state"] { width: 10.5%; }
+.table-wrap th[data-key="source"] { width: 6.5%; }
+.table-wrap th[data-key="lastSeen"] { width: 9.5%; }
+
+.table-wrap th, .table-wrap td {
+  min-width: 0;
+  max-width: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+.table-wrap td { padding: 12px 10px; }
+.table-wrap th button {
+  min-width: 0;
+  max-width: 100%;
+  padding: 12px 10px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+.table-wrap .app-button, .table-wrap .process-primary,
+.table-wrap .secondary, .table-wrap .endpoint,
+.table-wrap .name-cell, .table-wrap .explanation-cell,
+.table-wrap .explanation-button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-overflow: clip;
+}
+.table-wrap .app-button, .table-wrap .explanation-button { width: 100%; }
+
+/* Tablets, narrow desktop windows and increased browser zoom:
+   records become labeled grids. Column headings remain visible as sort
+   buttons. No field or timestamp is removed. These nth-child labels work
+   with existing reports without rewriting their scripts or record data. */
+@media screen and (max-width: 1199px) {
+  .table-wrap table, .table-wrap thead, .table-wrap tbody {
+    display: block;
+    width: 100%;
+  }
+  .table-wrap thead { padding: 10px; }
+  .table-wrap thead::before {
+    content: "Sort records by";
+    display: block;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .table-wrap thead tr {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .table-wrap thead th[data-key] {
+    display: block;
+    width: auto;
+    min-width: 0;
+  }
+  .table-wrap th button {
+    height: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+  .table-wrap tbody tr {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding: 10px;
+  }
+  .table-wrap tbody tr:nth-child(even) { background: var(--surface-2); }
+  .table-wrap tbody td {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    border: 0;
+    padding: 9px 10px;
+  }
+  .table-wrap tbody td:nth-child(4),
+  .table-wrap tbody td.empty { grid-column: 1 / -1; }
+  .table-wrap tbody td:nth-child(9) { grid-column: span 2; }
+  .table-wrap tbody td:not(.empty)::before {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 650;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .table-wrap td:nth-child(1)::before { content: "Process / application"; }
+  .table-wrap td:nth-child(2)::before { content: "Protocol"; }
+  .table-wrap td:nth-child(3)::before { content: "Remote endpoint"; }
+  .table-wrap td:nth-child(4)::before { content: "Explanation"; }
+  .table-wrap td:nth-child(5)::before { content: "DNS / name candidates"; }
+  .table-wrap td:nth-child(6)::before { content: "Registration"; }
+  .table-wrap td:nth-child(7)::before { content: "State / audit decision"; }
+  .table-wrap td:nth-child(8)::before { content: "Source"; }
+  .table-wrap td:nth-child(9)::before { content: "Last observed (UTC)"; }
+  .table-wrap tbody td.empty::before { content: none; }
+}
+
+@media screen and (max-width: 1050px) {
+  .filter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media screen and (max-width: 850px) {
+  .table-wrap tbody tr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .table-wrap tbody td:nth-child(1),
+  .table-wrap tbody td:nth-child(9) { grid-column: 1 / -1; }
+}
+@media screen and (max-width: 650px) {
+  .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .explanation-lists { grid-template-columns: minmax(0, 1fr); }
+  .table-wrap { max-height: none; overflow: visible; scrollbar-gutter: auto; }
+  .table-wrap thead { position: static; }
+  .table-wrap thead tr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .table-wrap tbody tr { grid-template-columns: minmax(0, 1fr); }
+  .table-wrap tbody td { grid-column: 1 / -1; padding: 8px 6px; }
+  .toolbar > span:last-child { display: block; }
+  .pagination { align-items: flex-start; }
+  .page-controls { max-width: 100%; flex-wrap: wrap; }
+  .dialog-top { gap: 10px; }
+  .dialog-top .close { flex: 0 0 auto; }
+  .registration { padding: 10px; }
+  .json { max-width: 100%; }
+}
+@media screen and (max-width: 380px) {
+  .filter-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Keep a real, fully wrapped table for printing. */
+@media print {
+  .table-wrap { max-height: none; overflow: visible; scrollbar-gutter: auto; }
+  .table-wrap table { display: table; table-layout: fixed; }
+  .table-wrap thead { display: table-header-group; position: static; }
+  .table-wrap tbody { display: table-row-group; }
+  .table-wrap tr { display: table-row; }
+  .table-wrap th, .table-wrap td { display: table-cell; }
+  .table-wrap thead::before, .table-wrap td::before { content: none; }
+  .table-wrap th button, .table-wrap td { padding: 6px 4px; font-size: 8px; }
+  .table-wrap .secondary, .table-wrap .endpoint,
+  .table-wrap .app-button, .table-wrap .explanation-button { font-size: 8px; }
+}
